@@ -1,0 +1,150 @@
+type Query {
+  # TODO change restaurantId to id.  It's redundant
+  restaurant(restaurantId: String, qrEntityId: String): RestaurantResults!
+
+  menu(id: String!): MenuResults!
+
+  # Poll will return all statuses for either a restaurantID or a userID
+  # this is how a user can retrieve their orders
+  poll(restaurantId: String, userId: String, lastDateTime: String!): PollResults!
+
+  # Will return all the user that given userId is associated with
+  users(tokenId: String!): UsersResults!
+
+  qrEntities(restaurantId: String!): QrEntityResults!
+
+  # This is a great place to add pagination to
+  report(tokenId: String!, startDateTime: String!, endDateTime: String!): ReportResults!
+
+  check(tokenId: String!, checkId: String!): CheckResults
+
+  # TODO: Consider merging the two below. It needs more research/thought. Keep in mind connection tokens are shorted
+  # lived and location based.  We want to avoid a heavy endpoint.
+  stripe(tokenId: String!, restaurantId: String, qrEntityId: String): StripeResults!
+  stripeTerminalConnection(tokenId: String!): StripeTerminalConnectionResults
+#  stripeBillingRedirect(tokenId: String!): StripeBillingRedirectResults!
+}
+
+# NOTE: follow https://www.apollographql.com/blog/designing-graphql-mutations-e09de826ed97/ best practices.
+type Mutation {
+
+  register(input: RegistrationInput): RegistrationResults!
+  updateRegistration(input: UpdateRegistrationInput): UpdatedRegistrationResults!
+
+  createOrders(orders: [OrderInput!]): CreatedOrderResults!
+  # TODO: change to follow best practices
+  updateOrder(input: UpdateOrderInput!): String!
+
+  createQrEntity(input: CreateQrEntityInput!): CreatedQrEntityResults!
+  updateQrEntity(input: UpdateQrEntityInput!): UpdatedQrEntityResults!
+  # TODO: Change to archiveQREntity instead of remove
+  removeQrEntity(input: RemoveQrEntityInput!): RemovedQrEntityResults!
+  updateWaiterStatus(input: UpdateWaiterStatusInput!): UpdatedWaiterStatusResults!
+
+  # UserId is given so that we can check that they have permission to create user
+  createUser(input: CreateUserInput!): CreatedUserResults!
+  updateUser(input: UpdateUserInput!): UpdatedUserResults!
+  deleteUser(input: DeleteUserInput!): DeletedUserResults!
+
+  createMenu(input: CreateMenuInput!): CreatedMenuResults!
+  updateMenu(input: UpdateMenuInput!): UpdatedMenuResults!
+
+  createItem(input: CreateItemInput!): CreatedItemResults!
+  updateItem(input: UpdateItemInput!): UpdatedItemResults!
+
+  createModifier(input: CreateModifierInput!): CreatedModifierResults
+  updateModifier(input: UpdateModifierInput!): UpdatedModifierResults
+
+  createUnit(input: CreateUnitInput!): CreatedUnitResults
+  updateUnit(input: UpdateUnitInput!): UpdatedUnitResults
+
+  addModifierItemReference(input: AddModifierItemReferenceInput!): AddedModifierItemReferenceResults
+  removeModifierItemReference(input: RemoveModifierItemReferenceInput!): RemovedModifierItemReferenceResults
+
+  # Flips the has_check_request bool in on the check DB table.
+  # This will be flipped once the restaurant confirms the order is all set
+  # This should only be called in a cash payment scenario most likely.
+  sendCheckRequest(input: SendCheckRequestInput!): SentCheckRequestResults!
+
+  # A check object has to be created before any orders can be placed
+  createCheck(input: CreateCheckInput!): CheckResults!
+
+  # The checkout is where all payment details are gathered and used for mobile/electronic payments
+  # TODO: Allow orders to be paid with coupons.  The given payment type will be applied to all orders.
+  checkout(input: CheckoutInput!): CheckResults!
+
+#  capturePaymentIntent(input: CapturePaymentIntentInput!): CapturePaymentIntentResults!
+
+  # After a check object is created then it can be updated.  Allows for non-critical field updates.
+  updateCheck(input: UpdateCheckInput!): CheckResults!
+
+#  payment(input: PaymentInput!): PaymentResults!
+
+  # will send/resend a receipt to an email if a check has an emailAddress.  If an
+  # email address is given and we already have one that the new address will overwrite the old one and send a new email.
+  # Eventually we'll want to keep both.
+  sendReceipt(input: SendReceiptInput!): SentReceiptResults
+
+#  createConnectAccount()
+#  createPaymentIntent(tokenId: String!):
+#  terminalRegistration(input: TerminalRegistrationInput): TerminalRegistrationResults!
+
+}
+
+
+type Solid{
+  id: int
+  faces: [Faces]!
+  edges: [Edges]!
+  vertex: [Vertex]!
+  nextSo: Solid!
+  prevSo: Solid!
+}
+
+type Face {
+  id: int
+  fSolid: face!
+  flout: [Loop]!
+  floops: [Loop]!
+  feq: Vertex
+  nextF: Face!
+  prevF: Face!
+}
+
+type Loop {
+  lecG: HalfEdge!
+  lFace: face!
+  nextL: Loop!
+  prevL: Loop!
+}
+
+type Edge {
+  he1: HalfEdge!
+  he2: HalfEdge!
+  nextE: Edge!
+  prevE: Edge!
+}
+
+type HalfEdge{
+  edg: Edge!
+  vtx: Vertex!
+  wloop: Loop
+  nxt: Edge!
+  prevs: Edge!
+}
+
+type Vertex {
+  id: int
+  vedge: HalfEdge!
+  nextv: Vertex!
+  prevv: Vertex!
+}
+
+type Node {
+  solid: Solid
+  face: Face
+  loop: loop
+  halfEdge: HalfdEdge
+  vertex: Vertex
+  edge: Edge
+}

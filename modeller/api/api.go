@@ -21,7 +21,6 @@ func New(c *config.Config) (http.Handler, error) {
 	if c.API.ShowGQLPlayground {
 		router.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	}
-	// router.Handle("/query", restaurant.Handler(dbClient, firebaseApp, c))
 
 	return router, nil
 }
@@ -33,7 +32,6 @@ func withCORSOptions(corsOpts cors.Options) func(mux *chi.Mux) {
 	}
 }
 
-// TODO: Move to a more common file
 func defaultRouter(rootMsg string, opts ...Option) *chi.Mux {
 	router := chi.NewRouter()
 

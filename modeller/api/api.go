@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/solid-modeller/common/config"
+	"github.com/matthewswords/solid-modeller/common/config"
 
 	// "github.com/tablenu/servitor/common/config"
 	"net/http"

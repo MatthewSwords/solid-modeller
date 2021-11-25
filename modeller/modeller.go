@@ -4,10 +4,10 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/matthewswords/solid-modeller/common/helper"
+	"github.com/matthewswords/solid-modeller/modeller/api"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"github.com/solid-modeller/MatthewSwords/common/helper"
-	"github.com/solid-modeller/MatthewSwords/modeller/api"
 
 	"github.com/spf13/pflag"
 )

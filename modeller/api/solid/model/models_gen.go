@@ -2,19 +2,59 @@
 
 package model
 
-type NewTodo struct {
-	Text   string `json:"text"`
-	UserID string `json:"userId"`
+type Edge struct {
+	He1   *HalfEdge `json:"he1"`
+	He2   *HalfEdge `json:"he2"`
+	NextE *Edge     `json:"nextE"`
+	PrevE *Edge     `json:"prevE"`
 }
 
-type Todo struct {
-	ID   string `json:"id"`
-	Text string `json:"text"`
-	Done bool   `json:"done"`
-	User *User  `json:"user"`
+type Face struct {
+	ID     *int    `json:"id"`
+	FSolid *Face   `json:"fSolid"`
+	Flout  []*Loop `json:"flout"`
+	Floops []*Loop `json:"floops"`
+	Feq    *Vertex `json:"feq"`
+	NextF  *Face   `json:"nextF"`
+	PrevF  *Face   `json:"prevF"`
 }
 
-type User struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+type HalfEdge struct {
+	Edg   *Edge   `json:"edg"`
+	Vtx   *Vertex `json:"vtx"`
+	Wloop *Loop   `json:"wloop"`
+	Nxt   *Edge   `json:"nxt"`
+	Prevs *Edge   `json:"prevs"`
+}
+
+type Loop struct {
+	LecG  *HalfEdge `json:"lecG"`
+	LFace *Face     `json:"lFace"`
+	NextL *Loop     `json:"nextL"`
+	PrevL *Loop     `json:"prevL"`
+}
+
+type Node struct {
+	Solid    *Solid    `json:"solid"`
+	Face     *Face     `json:"face"`
+	Loop     *Loop     `json:"loop"`
+	HalfEdge *HalfEdge `json:"halfEdge"`
+	Vertex   *Vertex   `json:"vertex"`
+	Edge     *Edge     `json:"edge"`
+}
+
+type Solid struct {
+	ID     *int      `json:"id"`
+	Faces  []*Face   `json:"faces"`
+	Edges  []*Edge   `json:"edges"`
+	Vertex []*Vertex `json:"vertex"`
+	NextSo *Solid    `json:"nextSo"`
+	PrevSo *Solid    `json:"prevSo"`
+}
+
+type Vertex struct {
+	ID    *int      `json:"id"`
+	Vedge *HalfEdge `json:"vedge"`
+	Nextv *Vertex   `json:"nextv"`
+	Prevv *Vertex   `json:"prevv"`
 }

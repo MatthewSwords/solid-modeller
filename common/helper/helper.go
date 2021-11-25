@@ -6,7 +6,7 @@ package helper
 import (
 	"os"
 
-	"github.com/solid-modeller/MatthewSwords/common/config"
+	"github.com/matthewswords/solid-modeller/common/config"
 )
 
 // Contains is a basic method to see if an array contains a specified string

@@ -1,24 +1,24 @@
 type Query {
-  solid(id: int): Solid!
+  solid(id: Int): Solid!
 }
 
 # NOTE: follow https://www.apollographql.com/blog/designing-graphql-mutations-e09de826ed97/ best practices.
-type Mutation {
+# type Mutation {
 
-}
+# }
 
 type Solid{
-  id: int
-  faces: [Faces]!
-  edges: [Edges]!
+  id: Int
+  faces: [Face]!
+  edges: [Edge]!
   vertex: [Vertex]!
   nextSo: Solid!
   prevSo: Solid!
 }
 
 type Face {
-  id: int
-  fSolid: face!
+  id: Int
+  fSolid: Face!
   flout: [Loop]!
   floops: [Loop]!
   feq: Vertex
@@ -28,7 +28,7 @@ type Face {
 
 type Loop {
   lecG: HalfEdge!
-  lFace: face!
+  lFace: Face!
   nextL: Loop!
   prevL: Loop!
 }
@@ -49,7 +49,7 @@ type HalfEdge{
 }
 
 type Vertex {
-  id: int
+  id: Int
   vedge: HalfEdge!
   nextv: Vertex!
   prevv: Vertex!
@@ -58,8 +58,8 @@ type Vertex {
 type Node {
   solid: Solid
   face: Face
-  loop: loop
-  halfEdge: HalfdEdge
+  loop: Loop
+  halfEdge: HalfEdge
   vertex: Vertex
   edge: Edge
 }

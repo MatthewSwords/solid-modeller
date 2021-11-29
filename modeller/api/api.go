@@ -3,11 +3,11 @@ package api
 import (
 	"fmt"
 
+	"net/http"
+
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/matthewswords/solid-modeller/common/config"
-
-	// "github.com/tablenu/servitor/common/config"
-	"net/http"
+	"github.com/matthewswords/solid-modeller/modeller/api/solid"
 
 	"github.com/go-chi/chi"
 	"github.com/rs/cors"
@@ -21,6 +21,7 @@ func New(c *config.Config) (http.Handler, error) {
 	if c.API.ShowGQLPlayground {
 		router.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	}
+	router.Handle("/query", solid.Handler(c))
 
 	return router, nil
 }
